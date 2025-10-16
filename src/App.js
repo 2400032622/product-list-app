@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
-function App() {
+const productsData = [
+  { name: 'Notebook', price: 10, category: 'Stationery' },
+  { name: 'Backpack', price: 40, category: 'Bags' },
+  { name: 'Pen', price: 2, category: 'Stationery' },
+  { name: 'Laptop', price: 800, category: 'Electronics' },
+  { name: 'Headphones', price: 50, category: 'Electronics' },
+];
+
+const categories = ['All', 'Stationery', 'Bags', 'Electronics'];
+
+const App = () => {
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const filteredProducts =
+    selectedCategory === 'All'
+      ? productsData
+      : productsData.filter(product => product.category === selectedCategory);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>Product List</h2>
+
+      <div>
+        {categories.map(category => (
+          <button
+            key={category}
+            onClick={() => setSelectedCategory(category)}
+            style={{
+              margin: '5px',
+              backgroundColor: selectedCategory === category ? '#ddd' : '#fff',
+            }}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <ul>
+        {filteredProducts.map((product, index) => (
+          <li key={index}>
+            <strong>{product.name}</strong> - ${product.price} ({product.category})
+          </li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
 
 export default App;
